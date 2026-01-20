@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Whimsical Octopus - Everwoven Crafts</title>
   <link rel="stylesheet" href="styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
+
   <style>
     .product-detail-container {
       max-width: 1200px;
@@ -65,7 +67,8 @@
       background-color: rgba(255, 255, 255, 0.8);
     }
 
-    .order-button {
+    .order-button,
+    .add-to-cart-btn {
       display: inline-block;
       background-color: var(--primary-color);
       color: var(--light-text);
@@ -78,12 +81,14 @@
       transition: all 0.4s var(--animation-timing);
     }
 
-    .order-button:hover {
+    .order-button:hover,
+    .add-to-cart-btn:hover {
       background-color: var(--accent-color);
       transform: scale(1.05);
     }
   </style>
 </head>
+
 <body>
 
   <header class="main-header">
@@ -103,8 +108,9 @@
 
   <main class="product-detail-container">
     <div class="product-detail-image">
-      <img src="images/products/octpous.jpeg" alt="Whimsical Octopus Crochet">
+      <img id="productImage" src="images/products/octpous.jpeg" alt="Whimsical Octopus Crochet">
     </div>
+
     <div class="product-detail-info">
       <h1>Whimsical Octopus</h1>
       <p>
@@ -115,8 +121,6 @@
         <label for="quantity">Quantity:</label>
         <input type="number" id="quantity" name="quantity" min="1" value="1" style="width: 80px;">
       </div>
-
-      
 
       <div class="product-options">
         <label for="color">Color:</label>
@@ -129,13 +133,12 @@
 
       <div class="product-options">
         <label>Price:</label>
-        ₹200
+        <span id="priceDisplay" data-price="200">₹200</span>
       </div>
-      
 
-      <button class="order-button" onclick="window.location.href='https://wa.me/9138181263?text=Hi! I would like to order the Whimsical Octopus crochet item (Qty: ' + document.getElementById('quantity').value + ', color:  ' + document.getElementById('color').value + ') from Everwoven Crafts.'">
-        Order
-      </button>
+      <button class="add-to-cart-btn" onclick="addProductToCart()">Add to Cart</button>
+      <button class="order-button" onclick="placeOrder()"> Order </button>
+
     </div>
   </main>
 
@@ -146,5 +149,30 @@
     </div>
   </footer>
 
+  <script>
+    
+    function addProductToCart() {
+      const name = "Whimsical Octopus";
+      const price = 200;
+      const qty = parseInt(document.getElementById("quantity").value);
+      const image = document.getElementById("productImage").src;
+
+      addToCart(name, price, image, qty);
+      alert("Added to cart!");
+    }
+    function placeOrder() {
+      const qty = document.getElementById('quantity').value;
+      const type = document.getElementById('flowerType').value;
+      const color = document.getElementById('color').value;
+      const flowerLabel = document.getElementById('flowerType').selectedOptions[0].text.split(' - ')[0];
+      const orderText = `Hi! I would like to order a ${flowerLabel} crochet flower (Qty: ${qty}, Color: ${color}) from Everwoven Crafts.`;
+      window.location.href = `https://wa.me/9138181263?text=${encodeURIComponent(orderText)}`;
+    }
+
+  </script>
+
+  <script src="script.js"></script>
+
 </body>
+
 </html>

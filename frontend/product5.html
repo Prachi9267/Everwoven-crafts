@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Crochet Charms - Everwoven Crafts</title>
+  <title>Crochet Bookmarks - Everwoven Crafts</title>
   <link rel="stylesheet" href="styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
   <style>
@@ -65,15 +65,6 @@
       background-color: rgba(255, 255, 255, 0.8);
     }
 
-    .product-options select {
-      padding: 0.6rem 1rem;
-      font-size: 1rem;
-      border: 1px solid rgba(44, 24, 16, 0.3);
-      border-radius: 4px;
-      background-color: rgba(255, 255, 255, 0.8);
-      appearance: none; /* To remove default arrow */
-    }
-
     .order-button {
       display: inline-block;
       background-color: var(--primary-color);
@@ -90,27 +81,6 @@
     .order-button:hover {
       background-color: var(--accent-color);
       transform: scale(1.05);
-    }
-
-    /* Carousel button styles */
-    .carousel-button {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: rgba(0, 0, 0, 0.5);
-      color: white;
-      border: none;
-      padding: 10px;
-      cursor: pointer;
-      z-index: 1;
-    }
-
-    .left {
-      left: 0;
-    }
-
-    .right {
-      right: 0;
     }
   </style>
 </head>
@@ -133,15 +103,14 @@
 
   <main class="product-detail-container">
     <div class="product-detail-image">
-      <button class="carousel-button left" onclick="changeImage(-1)">&#8592;</button>
-      <img id="productImage" src="images/products/bow.jpg" alt="Crochet Charms" />
-      <button class="carousel-button right" onclick="changeImage(1)">&#8594;</button>
+      <!-- Replace src below with the image path from homepage -->
+      <img id="productImage" src="images/products/bookmark.jpeg" alt="Crochet Bookmark" />
     </div>
 
     <div class="product-detail-info">
-      <h1>Crochet Charms</h1>
+      <h1>Crochet Bookmarks</h1>
       <p>
-        Our delightful crochet charms are perfect for adding a touch of handmade elegance to your accessories, gifts, and more! Each charm is carefully crafted with attention to detail, available in a variety of designs.
+        Elevate your reading experience with our handcrafted crochet bookmarks. Delicate, charming, and one-of-a-kind, these are perfect for book lovers and gift givers alike.
       </p>
 
       <div class="product-options">
@@ -149,25 +118,13 @@
         <input type="number" id="quantity" name="quantity" min="1" value="1" style="width: 80px;">
       </div>
 
-      <!-- Dropdown for charm selection -->
-      <div class="product-options">
-        <label for="charm-select">Select a Charm:</label>
-        <select id="charm-select" name="charm">
-          <option value="bow-charm">Bow Charm</option>
-          <option value="strawberry-charm">Strawberry Charm</option>
-          <option value="cherries-charm">Cherry Charm</option>
-          <option value="sunflower-charm">Sunflower Charm</option>
-          <option value="Daisies-charm">Daisy Charm</option>
-          <option value="Flower-charm">Flower Charm</option>
-        </select>
-      </div>
-
       <div class="product-options">
         <label>Price:</label>
         ₹200 each
       </div>
-
-      <button class="order-button" onclick="window.location.href='https://wa.me/9138181263?text=Hi! I would like to order the Crochet Charms (Qty: ' + document.getElementById('quantity').value + ', type: ' + document.getElementById('charm-select').value + ') from Everwoven Crafts.'">
+      
+      <button class="order-button" onclick="addProductToCart()">Add to Cart</button>
+      <button class="order-button" onclick="window.location.href='https://wa.me/9138181263?text=Hi! I would like to order the Crochet Bookmark (Qty: ' + document.getElementById('quantity').value + ') from Everwoven Crafts.'">
         Order
       </button>
     </div>
@@ -181,20 +138,21 @@
   </footer>
 
   <script>
-    let currentImageIndex = 0;
-    const images = [
-      'images/products/bow.jpg',
-      'images/products/strawberry charm.jpg',
-      'images/products/miniature.jpeg',
-      'images/products/charms4.jpeg',
-      'images/products/flower_charm.jpg'
-    ];
+    
+    function addProductToCart() {
+      const name = "Crochet bookmarks";
+      const price = 200;
+      const qty = parseInt(document.getElementById("quantity").value);
+      const image = document.getElementById("productImage").src;
 
-    function changeImage(direction) {
-      currentImageIndex = (currentImageIndex + direction + images.length) % images.length;
-      document.getElementById('productImage').src = images[currentImageIndex];
+      addToCart(name, price, image, qty);
+      alert("Added to cart!");
     }
+    
   </script>
+
+<script src="script.js"></script>
+
 
 </body>
 </html>

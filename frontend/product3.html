@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Evil eyes - Everwoven Crafts</title>
+  <title>Crochet Charms - Everwoven Crafts</title>
   <link rel="stylesheet" href="styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
   <style>
@@ -21,6 +21,7 @@
     .product-detail-image {
       flex: 1 1 45%;
       max-width: 500px;
+      position: relative;
     }
 
     .product-detail-image img {
@@ -56,7 +57,6 @@
       margin-right: 1rem;
     }
 
-    .product-options select,
     .product-options input[type="number"] {
       padding: 0.6rem 1rem;
       font-size: 1rem;
@@ -65,7 +65,15 @@
       background-color: rgba(255, 255, 255, 0.8);
     }
 
-    .order-button {
+    .product-options select {
+      padding: 0.6rem 1rem;
+      font-size: 1rem;
+      border: 1px solid rgba(44, 24, 16, 0.3);
+      border-radius: 4px;
+      background-color: rgba(255, 255, 255, 0.8);
+    }
+
+    .order-button, .add-to-cart-btn {
       display: inline-block;
       background-color: var(--primary-color);
       color: var(--light-text);
@@ -76,12 +84,29 @@
       letter-spacing: 1px;
       cursor: pointer;
       transition: all 0.4s var(--animation-timing);
+      margin-right: 10px;
     }
 
-    .order-button:hover {
+    .order-button:hover,
+    .add-to-cart-btn:hover {
       background-color: var(--accent-color);
       transform: scale(1.05);
     }
+
+    .carousel-button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0, 0, 0, 0.5);
+      color: white;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      z-index: 1;
+    }
+
+    .left { left: 0; }
+    .right { right: 0; }
   </style>
 </head>
 <body>
@@ -103,12 +128,15 @@
 
   <main class="product-detail-container">
     <div class="product-detail-image">
-      <img src="images/products/flowerpot.jpg" alt="Whimsical Octopus Crochet">
+      <button class="carousel-button left" onclick="changeImage(-1)">&#8592;</button>
+      <img id="productImage" src="images/products/bow.jpg" alt="Crochet Charms" />
+      <button class="carousel-button right" onclick="changeImage(1)">&#8594;</button>
     </div>
+
     <div class="product-detail-info">
-      <h1>Self-Watering FlowerPot</h1>
+      <h1>Crochet Charms</h1>
       <p>
-        A low-maintenance beauty that adds charm and elegance to any space—just place it and let it do the rest.
+        Our delightful crochet charms are perfect for adding a touch of handmade elegance to your accessories, gifts, and more! Each charm is carefully crafted with attention to detail, available in a variety of designs.
       </p>
 
       <div class="product-options">
@@ -117,12 +145,25 @@
       </div>
 
       <div class="product-options">
+        <label for="charm-select">Select a Charm:</label>
+        <select id="charm-select" name="charm">
+          <option>Bow Charm</option>
+          <option>Strawberry Charm</option>
+          <option>Cherry Charm</option>
+          <option>Sunflower Charm</option>
+          <option>Daisy Charm</option>
+          <option>Flower Charm</option>
+        </select>
+      </div>
+
+      <div class="product-options">
         <label>Price:</label>
         ₹200 each
       </div>
-      
 
-      <button class="order-button" onclick="window.location.href='https://wa.me/9138181263?text=Hi! I would like to order the crochet flowerpot item (Qty: ' + document.getElementById('quantity').value + ') from Everwoven Crafts.'">
+      <button class="add-to-cart-btn" onclick="addCharmToCart()">Add to Cart</button>
+
+      <button class="order-button" onclick="window.location.href='https://wa.me/9138181263?text=Hi! I would like to order Crochet Charms (Qty: ' + document.getElementById('quantity').value + ', Type: ' + document.getElementById('charm-select').value + ') from Everwoven Crafts.'">
         Order
       </button>
     </div>
@@ -135,5 +176,35 @@
     </div>
   </footer>
 
+  <script>
+    let currentImageIndex = 0;
+    const images = [
+      'images/products/bow.jpg',
+      'images/products/strawberry charm.jpg',
+      'images/products/miniature.jpeg',
+      'images/products/charms4.jpeg',
+      'images/products/flower_charm.jpg'
+    ];
+
+    function changeImage(direction) {
+      currentImageIndex = (currentImageIndex + direction + images.length) % images.length;
+      document.getElementById('productImage').src = images[currentImageIndex];
+    }
+
+    function addCharmToCart() {
+      const name = document.getElementById("charm-select").options[
+        document.getElementById("charm-select").selectedIndex
+      ].text;
+
+      const price = 200;
+      const qty = parseInt(document.getElementById("quantity").value);
+      const image = document.getElementById("productImage").src;
+
+      addToCart(name, price, image, qty);
+      alert("Added to cart!");
+    }
+  </script>
+<script src="script.js"></script>
 </body>
 </html>
+

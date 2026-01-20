@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Crochet Keychains - Everwoven Crafts</title>
+  <title>Delicate Flower - Everwoven Crafts</title>
   <link rel="stylesheet" href="styles.css" />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet" />
   <style>
@@ -86,7 +86,7 @@
       background-color: rgba(255, 255, 255, 0.8);
     }
 
-    .order-button {
+    .order-button, .add-to-cart-btn {
       display: inline-block;
       background-color: var(--primary-color);
       color: var(--light-text);
@@ -99,7 +99,7 @@
       transition: all 0.4s var(--animation-timing);
     }
 
-    .order-button:hover {
+    .order-button:hover, .add-to-cart-btn:hover  {
       background-color: var(--accent-color);
       transform: scale(1.05);
     }
@@ -109,7 +109,7 @@
   <header class="main-header">
     <div class="header-container">
       <div class="logo">
-        <img src="images/logo.jpeg" alt="Everwoven Crafts Logo" />
+        <img src="images/logo.jpeg" alt="Everwoven Crafts Logo"/>
       </div>
       <nav class="main-nav">
         <ul>
@@ -124,45 +124,44 @@
   <main class="product-detail-container">
     <div class="product-detail-image">
       <button class="carousel-button left" onclick="changeImage(-1)">&#8592;</button>
-      <img id="productImage" src="images/products/crochet_keychain.jpg" alt="Crochet Flower" />
+      <img id="productImage" src="images/products/delicate flower.jpg" alt="Crochet Flower" />
       <button class="carousel-button right" onclick="changeImage(1)">&#8594;</button>
     </div>
 
     <div class="product-detail-info">
-      <h1>Crochet Keychains</h1>
+      <h1>Delicate Crochet Flower</h1>
       <p>
-        Add a playful pop to your everyday essentials with our handcrafted crochet keychains, featuring delightful designs like cozy hearts, blooming flowers, and juicy watermelons.
+        Choose from a delightful collection: Rose, Lily, Tulip, or Sunflower – each uniquely crocheted with elegance. Whether for gifting or decor, there's a flower that fits your vibe perfectly.
       </p>
 
       <div class="product-options">
-        <label for="KeychainType">Keychain Type:</label>
-        <select id="KeychainType" name="KeychainType" onchange="updatePrice()">
-          <option value="Heart">Heart</option>
-          <option value="Flower1">Flower(yellow petals)</option>
-          <option value="Flower2">Flower(pink petals)</option>
-          <option value="Watermelon">Watermelon</option>
+        <label for="flowerType">Flower Type:</label>
+        <select id="flowerType" name="flowerType" onchange="updatePrice()">
+          <option value="rose">Rose - ₹250</option>
+          <option value="lily">Lily - ₹250</option>
+          <option value="tulip">Tulip - ₹200</option>
+          <option value="sunflower">Sunflower - ₹250</option>
         </select>
       </div>
 
       <div class="product-options">
-        <label for="color">Color of heart keychain:</label>
+        <label for="color">Color:</label>
         <select id="color" name="color">
-          <option value="pink">Peach</option>
-          <option value="blue">Sky blue</option>
-          <option value="white">Pink</option>
-          <option value="yellow">Red</option>
-          <option value="red">Lavender</option>
-          <option value="default">Default</option>
+          <option value="pink">Pink</option>
+          <option value="blue">Blue</option>
+          <option value="white">White</option>
+          <option value="yellow">Yellow</option>
+          <option value="red">Red</option>
         </select>
       </div>
 
-      <div class="product-options">
+      <div class="product-options" >
         <label for="quantity">Quantity:</label>
-        <input type="number" id="quantity" name="quantity" min="1" value="1" style="width: 80px;" />
+        <input type="number" id="quantity" name="quantity" min="1" value="1" style="width: 80px;"/>
       </div>
 
       
-
+      <button class = "add-to-cart-btn" onclick="addProductToCart()">Add to Cart</button>
       <button class="order-button" onclick="placeOrder()">
         Order
       </button>
@@ -178,10 +177,10 @@
 
   <script>
     const images = [
-      'images/products/crochet_keychain.jpg',
-      'images/products/crochet_keychain1.jpg',
-      'images/products/crochet_keychain2.jpg',
-      'images/products/crochet_keychain3.jpg'
+      'images/products/rose.jpeg',
+      'images/products/lilies.jpeg',
+      'images/products/tulip.jpg',
+      'images/products/sunflower.jpeg'
     ];
     let currentImage = 0;
 
@@ -191,29 +190,56 @@
     }
 
     function updatePrice() {
-      const KeychainType = document.getElementById('KeychainType').value;
+      const flowerType = document.getElementById('flowerType').value;
       let price = 250;
 
+      if (flowerType === 'lily') price = 300;
+      else if (flowerType === 'tulip') price = 280;
+      else if (flowerType === 'sunflower') price = 260;
+
       // Automatically select yellow color if sunflower is selected
-      if (KeychainType === 'Watermelon' || KeychainType === 'Flower1' || KeychainType === 'Flower2') {
-        document.getElementById('color').value = 'default'; // Automatically set to yellow
+      if (flowerType === 'sunflower') {
+        document.getElementById('color').value = 'yellow'; // Automatically set to yellow
       }
 
       document.getElementById('price').innerText = `₹${price}`;
     }
 
+    document.getElementById('flowerType').addEventListener('change', updatePrice);
+
+    function addProductToCart() {
+    const name = document.getElementById("flowerType").selectedOptions[0].text.split(' - ')[0];
+
+    let price = 250;
+    const type = document.getElementById("flowerType").value;
+
+    if (type === "lily") price = 300;
+    if (type === "tulip") price = 280;
+    if (type === "sunflower") price = 260;
+
+    const qty = parseInt(document.getElementById("quantity").value);
+
+    const image = document.getElementById("productImage").src;
     
+
+    addToCart(name,price,image,qty); 
+
+    alert("Added to cart!");
+  }
+
     function placeOrder() {
       const qty = document.getElementById('quantity').value;
-      const type = document.getElementById('KeychainType').value;
+      const type = document.getElementById('flowerType').value;
       const color = document.getElementById('color').value;
-      const KeychainLabel = document.getElementById('keychainType').selectedOptions[0].text.split(' - ')[0];
-      const orderText = `Hi! I would like to order a ${KeychainLabel} crochet keychain (Qty: ${qty}, Color: ${color}) from Everwoven Crafts.`;
+      const flowerLabel = document.getElementById('flowerType').selectedOptions[0].text.split(' - ')[0];
+      const orderText = `Hi! I would like to order a ${flowerLabel} crochet flower (Qty: ${qty}, Color: ${color}) from Everwoven Crafts.`;
       window.location.href = `https://wa.me/9138181263?text=${encodeURIComponent(orderText)}`;
     }
 
     // Initialize on page load
     window.onload = updatePrice; // Ensure price and color are updated on page load
   </script>
+
+<script src="script.js"></script>
 </body>
 </html>

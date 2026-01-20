@@ -10,12 +10,12 @@
     <title>Everwoven Crafts - Handmade Crochet Creations</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 </head>
 
 <body>
     <!-- Add an ID to the search bar and the form for easier reference -->
-
-
     <header class="main-header">
         <div class="header-container">
             <div class="logo">
@@ -34,7 +34,71 @@
                     <button type="submit">Search</button>
                 </form>
             </div>
-        </div>
+            <div class="user-id" id="openDrawer">
+                    <i class="fa-solid fa-user"></i>
+            </div>
+            <div class = "overlay" id="overlay"></div>
+
+            <div class = "slide-menu" id="slideMenu">
+                <h2> Hello User!</h2>
+                <div class="decorative-line"></div>
+
+                <ul>
+                    <li id="accountdrawer"><a href="#"> Account</a></li>
+                    <li id="openCart">Cart</li>
+                    <li>Orders</li>
+                </ul>
+
+                <div id="cartContainer" style="margin-top:15px; display:none;">
+                    <h3>Your Cart</h3>
+                    
+                    <div id="cartItems"></div>
+                    <button id="backToMenu" class="back-btn">Back</button>
+                </div>
+            </div>
+            <div class = "account-menu" id="accountMenu">
+                    <div class="credentialpage" id="registerPage">
+                        <h4>Create An Account</h4>
+                        <input type="text" id="regName" placeholder="Enter name" required>
+                        <input type="email" id="regEmail" placeholder="Enter email address"  required>
+                        <input type="password" id="regPassword" placeholder="Enter password "required>
+                        <button class ="submit-btn" onclick="registerUser()"> Create Account</button>
+                        <br>
+                        <br>
+                        <div class="login" style="text-align: right; font-size:10px;">
+                            <p>Already have an account?</p>
+                            <button class = "login-btn" onclick="showLogin()"> Login</button>
+                        </div>
+                    </div>
+
+                        <div class="credentialpage" id="loginPage" style="display:none;">
+                        <h4>Login</h4>
+
+                        <input type="email" id="loginEmail" placeholder="Enter email" required>
+                        <input type="password" id="loginPassword" placeholder="Enter password" required>
+
+                        <button class="submit-btn" onclick="loginUser()">Login</button>
+
+
+                        <div class="login" style="text-align: right; font-size:10px;">
+                                <p>Don't have an account?</p>
+                                <button class="login-btn" onclick="showRegister()">Create</button>
+                         </div>
+                        </div>
+
+                         <div class="credentialpage" id="userPage" style="display:none; text-align:center;">
+                            <h4 id="welcomeUser">Hello User!</h4>
+
+                        <button class="submit-btn" onclick="logoutUser()">Logout</button>
+                        </div>
+                        
+                
+                    </div>
+                
+                
+            </div>
+            </div>
+    
     </header>
 
     <section class="hero-banner">
@@ -87,6 +151,9 @@
                     <div class="product-info">
                         <h3>Delicate Flowers</h3>
                         <p>Handcrafted with love and attention to detail</p>
+                       
+
+                        
                     </div>
                 </div>
         </a>

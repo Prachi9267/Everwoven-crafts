@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Evil eyes - Everwoven Crafts</title>
+  <title>Crochet Bouquets - Everwoven Crafts</title>
   <link rel="stylesheet" href="styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
   <style>
@@ -21,6 +21,7 @@
     .product-detail-image {
       flex: 1 1 45%;
       max-width: 500px;
+      position: relative;
     }
 
     .product-detail-image img {
@@ -53,19 +54,27 @@
 
     .product-options label {
       font-weight: bold;
-      margin-right: 1rem;
+      margin-bottom: 0.5rem;
+      display: block;
     }
 
-    .product-options select,
-    .product-options input[type="number"] {
+    .product-options input[type="number"],
+    .product-options textarea {
+      width: 100%;
       padding: 0.6rem 1rem;
       font-size: 1rem;
       border: 1px solid rgba(44, 24, 16, 0.3);
       border-radius: 4px;
       background-color: rgba(255, 255, 255, 0.8);
+      box-sizing: border-box;
     }
 
-    .order-button {
+    .product-options textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .order-button , .add-to-cart-btn{
       display: inline-block;
       background-color: var(--primary-color);
       color: var(--light-text);
@@ -78,7 +87,7 @@
       transition: all 0.4s var(--animation-timing);
     }
 
-    .order-button:hover {
+    .order-button:hover, .add-to-cart-btn:hover {
       background-color: var(--accent-color);
       transform: scale(1.05);
     }
@@ -103,12 +112,14 @@
 
   <main class="product-detail-container">
     <div class="product-detail-image">
-      <img src="images/products/evileye.jpg" alt="Whimsical Octopus Crochet">
+      <!-- Use the same bouquet image as on homepage -->
+      <img id="productImage" src="images/products/boquet.jpg" alt="Crochet Bouquets" />
     </div>
+
     <div class="product-detail-info">
-      <h1>Crochet Evil Eye</h1>
+      <h1>Crochet Bouquets</h1>
       <p>
-        Hand-crocheted with care, this charming evil eye offers a touch of protection and style in one soft, symbolic piece.
+        Celebrate with everlasting beauty. These handcrafted crochet bouquets are perfect for birthdays, weddings, or simply brightening someone’s day. Let us know your color or flower preferences below.
       </p>
 
       <div class="product-options">
@@ -117,12 +128,22 @@
       </div>
 
       <div class="product-options">
+        <label for="custom-text">Customization (flowers, colors, themes):</label>
+        <textarea id="custom-text" name="custom-text" placeholder="Imagine it, tell us, and we’ll make your crochet dreams come true."></textarea>
+      </div>
+
+      <div class="product-options">
         <label>Price:</label>
-        ₹200 each
+        ₹900 each
       </div>
       
-
-      <button class="order-button" onclick="window.location.href='https://wa.me/9138181263?text=Hi! I would like to order the evil eye crochet  (Qty: ' + document.getElementById('quantity').value + ') from Everwoven Crafts.'">
+      <button class="add-to-cart-btn" onclick="addProductToCart()">Add to Cart</button>
+      <button class="order-button" onclick="
+        window.location.href='https://wa.me/9138181263?text=' +
+        encodeURIComponent('Hi! I would like to order Crochet Bouquet(s).\nQuantity: ' + document.getElementById('quantity').value + 
+        '\nCustomisation: ' + document.getElementById('custom-text').value + 
+        '\nFrom Everwoven Crafts.');
+      ">
         Order
       </button>
     </div>
@@ -134,6 +155,23 @@
       <p class="copyright">&copy; 2024 Everwoven Crafts. All rights reserved.</p>
     </div>
   </footer>
+
+  <script>
+    
+    function addProductToCart() {
+      const name = "Crochet Bouquets";
+      const price = 900;
+      const qty = parseInt(document.getElementById("quantity").value);
+      const image = document.getElementById("productImage").src;
+
+      addToCart(name, price, image, qty);
+      alert("Added to cart!");
+    }
+
+  
+  </script>
+
+  <script src="script.js"></script>
 
 </body>
 </html>

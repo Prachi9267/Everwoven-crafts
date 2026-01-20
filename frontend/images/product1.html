@@ -86,7 +86,7 @@
       background-color: rgba(255, 255, 255, 0.8);
     }
 
-    .order-button {
+    .order-button, .add-to-cart-btn {
       display: inline-block;
       background-color: var(--primary-color);
       color: var(--light-text);
@@ -99,7 +99,7 @@
       transition: all 0.4s var(--animation-timing);
     }
 
-    .order-button:hover {
+    .order-button:hover, .add-to-cart-btn:hover  {
       background-color: var(--accent-color);
       transform: scale(1.05);
     }
@@ -109,7 +109,7 @@
   <header class="main-header">
     <div class="header-container">
       <div class="logo">
-        <img src="images/logo.jpeg" alt="Everwoven Crafts Logo" />
+        <img src="images/logo.jpeg" alt="Everwoven Crafts Logo"/>
       </div>
       <nav class="main-nav">
         <ul>
@@ -161,7 +161,7 @@
       </div>
 
       
-
+      <button class = "add-to-cart-btn" onclick="addProductToCart()">Add to Cart</button>
       <button class="order-button" onclick="placeOrder()">
         Order
       </button>
@@ -207,6 +207,26 @@
 
     document.getElementById('flowerType').addEventListener('change', updatePrice);
 
+    function addProductToCart() {
+    const name = document.getElementById("flowerType").selectedOptions[0].text.split(' - ')[0];
+
+    let price = 250;
+    const type = document.getElementById("flowerType").value;
+
+    if (type === "lily") price = 300;
+    if (type === "tulip") price = 280;
+    if (type === "sunflower") price = 260;
+
+    const qty = parseInt(document.getElementById("quantity").value);
+
+    const image = document.getElementById("productImage").src;
+    
+
+    addToCart(name,price,image,qty); 
+
+    alert("Added to cart!");
+  }
+
     function placeOrder() {
       const qty = document.getElementById('quantity').value;
       const type = document.getElementById('flowerType').value;
@@ -219,5 +239,7 @@
     // Initialize on page load
     window.onload = updatePrice; // Ensure price and color are updated on page load
   </script>
+
+<script src="script.js"></script>
 </body>
 </html>
