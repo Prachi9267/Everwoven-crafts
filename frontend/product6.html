@@ -138,12 +138,7 @@
       </div>
       
       <button class="add-to-cart-btn" onclick="addProductToCart()">Add to Cart</button>
-      <button class="order-button" onclick="
-        window.location.href='https://wa.me/9138181263?text=' +
-        encodeURIComponent('Hi! I would like to order Crochet Bouquet(s).\nQuantity: ' + document.getElementById('quantity').value + 
-        '\nCustomisation: ' + document.getElementById('custom-text').value + 
-        '\nFrom Everwoven Crafts.');
-      ">
+      <button class="order-button" onclick="placeOrder()">
         Order
       </button>
     </div>
@@ -166,6 +161,14 @@
 
       addToCart(name, price, image, qty);
       alert("Added to cart!");
+    }
+
+    function placeOrder() {
+      const qty = document.getElementById('quantity').value;
+      const productName = "Crochet Bouquets"; 
+      const price = 900;
+
+      window.location.href = `checkout.html?name=${productName}&qty=${qty}&price=${price}`;
     }
 
   

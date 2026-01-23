@@ -167,7 +167,7 @@
         onclick="addProductToCart()">Add to Cart</button>
 </button>
 
-      <button class="order-button" onclick="window.location.href='https://wa.me/9138181263?text=Hi! I would like to order the Crochet Clutches (Qty: ' + document.getElementById('quantity').value + ', type: ' + document.getElementById('clutch-select').value + ' ) from Everwoven Crafts.'">
+      <button class="order-button" onclick="placeOrder()">
         Order
       </button>
     </div>
@@ -199,6 +199,15 @@
 
       addToCart(name, price, image, qty);
       alert("Added to cart!");
+    }
+
+    function placeOrder() {
+      const qty = document.getElementById('quantity').value;
+      const clutchSelect = document.getElementById("clutch-select");
+      const productName = clutchSelect.options[clutchSelect.selectedIndex].text; 
+      const price = 200;
+
+      window.location.href = `checkout.html?name=${productName}&qty=${qty}&price=${price}`;
     }
     
   </script>

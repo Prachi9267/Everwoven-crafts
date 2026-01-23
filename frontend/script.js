@@ -227,6 +227,68 @@ function renderCart() {
         </div>
     `;
 }
+// -------------------------
+//  ORDER NOW FUNCTION
+// -------------------------
+document.getElementById("orderNow").addEventListener("click", () => {
+    let cart = getCart();
+
+    if (cart.length === 0) {
+        alert("Your cart is empty!");
+        return;
+    }
+
+    // Create order summary
+    let summary = "Your Order:\n\n";
+    let total = 0;
+
+    cart.forEach(item => {
+        summary += `${item.name} - ₹${item.price} x ${item.qty}\n`;
+        total += item.price * item.qty;
+    });
+
+    summary += `\nTotal Amount: ₹${total}\n\n`;
+
+    // Confirm order
+    let confirmOrder = confirm(summary + "Do you want to place the order?");
+
+    if (!confirmOrder) return;
+
+    fetch("http://localhost:5000/api/orders/create", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            customerName: document.getElementById("custName")?.value || "Unknown",
+            items: cart,
+            totalAmount: total
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            localStorage.setItem("lastOrderId", data.orderId);
+
+            localStorage.setItem("orderedCart", JSON.stringify(cart));
+            localStorage.setItem("orderedTotal", total);
+
+            localStorage.removeItem("cart");
+
+            // Redirect to checkout page
+            window.location.href = "checkout.html?cart=true";
+        } else {
+            alert("❌ Failure.");
+        }
+
+            
+    })
+     .catch(err => {
+        alert("❌ Server error: " + err.message);
+    });
+});
+
+
 
 function removeFromCart(name) {
     let cart = getCart();

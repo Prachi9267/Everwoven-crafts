@@ -162,11 +162,11 @@
     }
     function placeOrder() {
       const qty = document.getElementById('quantity').value;
-      const type = document.getElementById('flowerType').value;
       const color = document.getElementById('color').value;
-      const flowerLabel = document.getElementById('flowerType').selectedOptions[0].text.split(' - ')[0];
-      const orderText = `Hi! I would like to order a ${flowerLabel} crochet flower (Qty: ${qty}, Color: ${color}) from Everwoven Crafts.`;
-      window.location.href = `https://wa.me/9138181263?text=${encodeURIComponent(orderText)}`;
+      const productLabel = "Whimsical Octopus";
+      const price = 200;
+
+      window.location.href = `checkout.html?name=${productLabel}&qty=${qty}&color=${color}&price=${price}`;
     }
 
   </script>

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checkout - Everwoven Crafts</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary-color: #8B5E3C;
+      --accent-color: #A9806A;
+      --light-bg: #F7F3F0;
+      --dark-text: #2C1810;
+      --light-text: #fff;
+      --border-color: rgba(44, 24, 16, 0.3);
+      --animation-timing: 0.3s ease;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Noto Serif JP", serif;
+      background: var(--light-bg);
+      color: var(--dark-text);
+    }
+
+    .checkout-container {
+      max-width: 800px;
+      margin: 100px auto;
+      background: white;
+      padding: 2.5rem;
+      border-radius: 12px;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: var(--primary-color);
+      margin-bottom: 2rem;
+      font-size: 2.5rem;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.9rem;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.8);
+      font-size: 1rem;
+    }
+
+    .order-summary {
+      margin-top: 2rem;
+      padding: 1.5rem;
+      background: var(--light-bg);
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+    }
+
+    .pay-btn {
+      width: 100%;
+      margin-top: 2rem;
+      background: var(--primary-color);
+      border: none;
+      color: white;
+      padding: 1rem;
+      font-size: 1.2rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: var(--animation-timing);
+      letter-spacing: 1px;
+    }
+
+    .pay-btn:hover {
+      background: var(--accent-color);
+      transform: scale(1.03);
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      margin-top: 3rem;
+      color: var(--primary-color);
+    }
+
+    @media (max-width: 600px) {
+      .checkout-container {
+        margin: 40px 15px;
+        padding: 1.5rem;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="checkout-container">
+    <h1>Checkout</h1>
+
+    <label>Name</label>
+    <input type="text" id="custName" placeholder="Enter your full name">
+
+    <label>Phone No</label>
+    <input type="text" id="phone" placeholder="Enter your phone number">
+
+    <label>Address</label>
+    <input type="text" id="address" placeholder="Enter your complete address">
+
+    <label>Pincode</label>
+    <input type="number" id="pincode" placeholder="Enter pincode">
+
+    <div class="order-summary">
+      <h3>Order Summary</h3>
+      <p id="productName"></p>
+      <p id="productQty"></p>
+      <p id="productPrice"></p>
+      <h3>Total: ₹<span id="totalAmount"></span></h3>
+    </div>
+
+    <button class="pay-btn" onclick="payNow()">Pay Now</button>
+  </div>
+
+  <footer>Woven with love, for eternity</footer>
+
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const isCart = urlParams.get("cart");
+
+  const nameEl = document.getElementById("productName");
+  const qtyEl = document.getElementById("productQty");
+  const priceEl = document.getElementById("productPrice");
+  const totalEl = document.getElementById("totalAmount");
+
+  let total = 0;
+  let cartItems = [];
+
+  // ----------------------- CART ORDER -----------------------
+  if (isCart) {
+    cartItems = JSON.parse(localStorage.getItem("orderedCart")) || [];
+
+    if (cartItems.length === 0) {
+      nameEl.innerText = "No items found!";
+    } else {
+      total = cartItems.reduce((sum, item) => sum + item.price * item.qty, 0);
+
+      nameEl.innerText = `Items in Order: ${cartItems.length}`;
+      qtyEl.innerText = "";
+      priceEl.innerText = "";
+      totalEl.innerText = total;
+    }
+  }
+
+  // --------------------- SINGLE PRODUCT ---------------------
+  else {
+    const productName = urlParams.get("name");
+    const price = Number(urlParams.get("price"));
+    const qty = Number(urlParams.get("qty"));
+
+    total = price * qty;
+
+    nameEl.innerText = "Product: " + productName;
+    qtyEl.innerText = "Quantity: " + qty;
+    priceEl.innerText = "Price per item: ₹" + price;
+    totalEl.innerText = total;
+  }
+
+  // ---------------------- PAY NOW ---------------------------
+  function payNow() {
+
+    const customerName = document.getElementById("custName").value;
+    const phone = document.getElementById("phone").value;
+    const address = document.getElementById("address").value;
+    const pincode = document.getElementById("pincode").value;
+
+    if (!customerName || !phone || !address || !pincode) {
+      alert("Please fill all details before paying.");
+      return;
+    }
+
+    let options = {
+      key: "rzp_test_S6D4Az2m5VwU4H",
+      amount: total * 100,
+      currency: "INR",
+      name: "Everwoven Crafts",
+      description: "Order Payment",
+
+      handler: async function (response) {
+
+        // Collect data again safely
+        const customerName = document.getElementById("custName").value;
+        const phone = document.getElementById("phone").value;
+        const address = document.getElementById("address").value;
+        const pincode = document.getElementById("pincode").value;
+
+        let orderPayload = {
+          customerName,
+          phone,
+          address,
+          pincode,
+          paymentId: response.razorpay_payment_id,
+          totalAmount: total,
+          items: []
+        };
+
+        if (isCart) {
+          orderPayload.items = cartItems;
+        } else {
+          orderPayload.items.push({
+            name: urlParams.get("name"),
+            price: Number(urlParams.get("price")),
+            qty: Number(urlParams.get("qty")),
+            color: urlParams.get("color") || "Default"
+          });
+        }
+
+        try {
+          const res = await fetch("http://localhost:5000/api/orders/create", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(orderPayload)
+          });
+
+          const data = await res.json();
+          console.log("SERVER RESPONSE:", data);
+
+        } catch (err) {
+          alert("Failed to send order to server: " + err.message);
+          return;
+        }
+
+        if (isCart) {
+          localStorage.removeItem("orderedCart");
+          localStorage.removeItem("orderedTotal");
+        }
+
+        window.location.href = "success.html";
+      },
+
+      theme: { color: "#8B5E3C" }
+    };
+
+    const razorpayObject = new Razorpay(options);
+
+    razorpayObject.on("payment.failed", function () {
+      window.location.href = "failure.html";
+    });
+
+    razorpayObject.open();
+  }
+</script>
+
+</body>
+</html>
+

@@ -103,7 +103,7 @@
 
   <main class="product-detail-container">
     <div class="product-detail-image">
-      <img id="productImage" src="images/products/flowerpot.jpg" alt="Whimsical Octopus Crochet">
+      <img id="productImage" src="images/products/flowerpot.jpg" alt="flowerpot">
     </div>
     <div class="product-detail-info">
       <h1>Self-Watering FlowerPot</h1>
@@ -122,7 +122,7 @@
       </div>
       
        <button class="add-to-cart-btn" onclick="addProductToCart()">Add to Cart</button>
-      <button class="order-button" onclick="window.location.href='https://wa.me/9138181263?text=Hi! I would like to order the crochet flowerpot item (Qty: ' + document.getElementById('quantity').value + ') from Everwoven Crafts.'">
+      <button class="order-button" onclick="placeOrder()">
         Order
       </button>
     </div>
@@ -144,6 +144,14 @@
 
       addToCart(name, price, image, qty);
       alert("Added to cart!");
+    }
+
+    function placeOrder() {
+      const qty = document.getElementById('quantity').value;
+      const productName = "Crochet Flowerpot"; 
+      const price = 200;
+
+      window.location.href = `checkout.html?name=${productName}&qty=${qty}&price=${price}`;
     }
   </script>
 

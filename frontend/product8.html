@@ -122,7 +122,7 @@
       </div>
       
       <button class="add-to-cart-btn" onclick="addProductToCart()">Add to Cart</button>
-      <button class="order-button" onclick="window.location.href='https://wa.me/9138181263?text=Hi! I would like to order the evil eye crochet  (Qty: ' + document.getElementById('quantity').value + ') from Everwoven Crafts.'">
+      <button class="order-button" onclick="placeOrder()">
         Order
       </button>
     </div>
@@ -144,6 +144,14 @@
 
       addToCart(name, price, image, qty);
       alert("Added to cart!");
+    }
+
+     function placeOrder() {
+      const qty = document.getElementById('quantity').value;
+      const productName = "Crochet Evil-eye"; 
+      const price = 200;
+
+      window.location.href = `checkout.html?name=${productName}&qty=${qty}&price=${price}`;
     }
   </script>
 <script src="script.js"></script>

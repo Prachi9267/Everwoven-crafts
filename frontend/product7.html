@@ -43,13 +43,8 @@
       border-radius: 4px;
     }
 
-    .carousel-button.left {
-      left: 10px;
-    }
-
-    .carousel-button.right {
-      right: 10px;
-    }
+    .carousel-button.left { left: 10px; }
+    .carousel-button.right { right: 10px; }
 
     .product-detail-info {
       flex: 1 1 50%;
@@ -97,6 +92,7 @@
       letter-spacing: 1px;
       cursor: pointer;
       transition: all 0.4s var(--animation-timing);
+      margin-right: 10px;
     }
 
     .order-button:hover, .add-to-cart-btn:hover {
@@ -124,7 +120,7 @@
   <main class="product-detail-container">
     <div class="product-detail-image">
       <button class="carousel-button left" onclick="changeImage(-1)">&#8592;</button>
-      <img id="productImage" src="images/products/crochet_keychain.jpg" alt="Crochet Flower" />
+      <img id="productImage" src="images/products/crochet_keychain.jpg" alt="Crochet Keychain" />
       <button class="carousel-button right" onclick="changeImage(1)">&#8594;</button>
     </div>
 
@@ -136,16 +132,16 @@
 
       <div class="product-options">
         <label for="KeychainType">Keychain Type:</label>
-        <select id="KeychainType" name="KeychainType" onchange="updatePrice()">
+        <select id="KeychainType" name="KeychainType">
           <option value="Heart">Heart</option>
-          <option value="Flower1">Flower(yellow petals)</option>
-          <option value="Flower2">Flower(pink petals)</option>
+          <option value="Flower1">Flower (yellow petals)</option>
+          <option value="Flower2">Flower (pink petals)</option>
           <option value="Watermelon">Watermelon</option>
         </select>
       </div>
 
       <div class="product-options">
-        <label for="color">Color of heart keychain:</label>
+        <label for="color">Color:</label>
         <select id="color" name="color">
           <option value="pink">Peach</option>
           <option value="blue">Sky blue</option>
@@ -158,7 +154,7 @@
 
       <div class="product-options">
         <label>Price:</label>
-        ₹250 each
+        <span id="price">₹250 each</span>
       </div>
 
       <div class="product-options">
@@ -166,13 +162,8 @@
         <input type="number" id="quantity" name="quantity" min="1" value="1" style="width: 80px;" />
       </div>
 
-
-
-      
       <button class="add-to-cart-btn" onclick="addProductToCart()">Add to Cart</button>
-      <button class="order-button" onclick="placeOrder()">
-        Order
-      </button>
+      <button class="order-button" onclick="placeOrder()">Order</button>
     </div>
   </main>
 
@@ -184,6 +175,7 @@
   </footer>
 
   <script>
+    // Carousel
     const images = [
       'images/products/crochet_keychain.jpg',
       'images/products/crochet_keychain1.jpg',
@@ -197,38 +189,34 @@
       document.getElementById('productImage').src = images[currentImage];
     }
 
-    function updatePrice() {
-      const KeychainType = document.getElementById('KeychainType').value;
-      let price = 250;
-
-      // Automatically select yellow color if sunflower is selected
-      if (KeychainType === 'Watermelon' || KeychainType === 'Flower1' || KeychainType === 'Flower2') {
-        document.getElementById('color').value = 'default'; // Automatically set to yellow
-      }
-
-      document.getElementById('price').innerText = `₹${price}`;
-    }
-     function addProductToCart() {
-      const name = "Crochet Keychains";
+    // Add to Cart
+    function addProductToCart() {
+      const keychainType = document.getElementById('KeychainType').value;
+      const color = document.getElementById('color').value;
+      const qty = parseInt(document.getElementById('quantity').value);
       const price = 250;
-      const qty = parseInt(document.getElementById("quantity").value);
-      const image = document.getElementById("productImage").src;
+      const image = document.getElementById('productImage').src;
+
+      const name = `${keychainType} Keychain`;
 
       addToCart(name, price, image, qty);
       alert("Added to cart!");
     }
-    function placeOrder() {
-      const qty = document.getElementById('quantity').value;
-      const type = document.getElementById('flowerType').value;
-      const color = document.getElementById('color').value;
-      const flowerLabel = document.getElementById('flowerType').selectedOptions[0].text.split(' - ')[0];
-      const orderText = `Hi! I would like to order a ${flowerLabel} crochet flower (Qty: ${qty}, Color: ${color}) from Everwoven Crafts.`;
-      window.location.href = `https://wa.me/9138181263?text=${encodeURIComponent(orderText)}`;
-    }
 
-    
+    // Place Order
+    function placeOrder() {
+      const keychainType = document.getElementById('KeychainType').value;
+      const color = document.getElementById('color').value;
+      const qty = document.getElementById('quantity').value;
+      const price = 250;
+      const name = `${keychainType} Keychain`;
+
+      // Redirect to checkout page with query parameters
+      window.location.href = `checkout.html?name=${encodeURIComponent(name)}&qty=${qty}&color=${encodeURIComponent(color)}&price=${price}`;
+    }
   </script>
 
   <script src="script.js"></script>
 </body>
 </html>
+
