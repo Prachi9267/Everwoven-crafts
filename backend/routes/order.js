@@ -25,4 +25,22 @@ router.post("/create", async (req, res) => {
     }
 });
 
+router.get("/my-orders", async (req, res) => {
+    try {
+
+        const orders = await Order.find().sort({ createdAt: -1 });
+
+        res.json({
+            success: true,
+            orders
+        });
+
+    } catch (err) {
+        res.status(500).json({
+            success: false,
+            message: "Error fetching orders"
+        });
+    }
+});
+
 export default router;

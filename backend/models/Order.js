@@ -16,11 +16,8 @@ const orderSchema = new mongoose.Schema({
         }
     ],
     totalAmount: Number,
-    createdAt: {
-        type: Date,
-        default: Date.now
-    }
-});
+},
+    {timestamps: true});
 
 const Order = mongoose.model("Order", orderSchema);
 
