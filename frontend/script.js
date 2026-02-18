@@ -254,7 +254,7 @@ document.getElementById("orderNow").addEventListener("click", () => {
 
     if (!confirmOrder) return;
 
-    fetch("http://localhost:5000/api/orders/create", {
+    fetch("https://everwoven-crafts.onrender.com/api/orders/create", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -390,7 +390,7 @@ async function registerUser() {
     const email = document.getElementById("regEmail").value;
     const password = document.getElementById("regPassword").value;
 
-    const res = await fetch("http://localhost:5000/api/auth/register", {
+    const res = await fetch("https://everwoven-crafts.onrender.com/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password })
@@ -412,7 +412,7 @@ async function loginUser() {
     const email = document.getElementById("loginEmail").value;
     const password = document.getElementById("loginPassword").value;
 
-    const res = await fetch("http://localhost:5000/api/auth/login", {
+    const res = await fetch("https://everwoven-crafts.onrender.com/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password })
