@@ -319,6 +319,41 @@ if (openCartBtn) {
 
 }
 
+async function loadOrders() {
+
+    const response = await fetch(
+        "https://everwoven-crafts.onrender.com/api/orders/my-orders"
+    );
+
+    const data = await response.json();
+
+    const orders = data.orders;   // FIXED LINE
+
+    const ordersContainer = document.getElementById("ordersContainer");
+
+    ordersContainer.innerHTML = "";
+
+    orders.forEach(order => {
+
+        const div = document.createElement("div");
+
+        div.innerHTML = `
+            <h3>Order ID: ${order._id}</h3>
+            <p>Name: ${order.customerName}</p>
+            <p>Total: ₹${order.totalAmount}</p>
+            <p>Date: ${new Date(order.createdAt).toLocaleString()}</p>
+            <hr>
+        `;
+
+        ordersContainer.appendChild(div);
+
+    });
+}
+document.getElementById("orderscontainer")
+.addEventListener("click", loadOrders);
+
+
+
 function resetMenu() {
     const slideMenu = document.getElementById("slideMenu");
     const container = document.getElementById("cartContainer");
