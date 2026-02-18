@@ -7,9 +7,6 @@ import Razorpay from "razorpay";
 import dotenv from "dotenv";
 dotenv.config();
 
-app.get("/ping", (req, res) => {
-  res.send("pong");
-});
 
 
 const app = express();
@@ -37,6 +34,11 @@ const razorpay = new Razorpay({
 // -------------------
 // 3. Create Order Route (Used by Checkout Page)
 // -------------------
+
+app.get("/ping", (req, res) => {
+  res.send("pong");
+});
+
 app.post("/create-order", async (req, res) => {
     try {
         const { amount } = req.body;
