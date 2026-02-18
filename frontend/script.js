@@ -318,51 +318,70 @@ if (openCartBtn) {
     });
 
 }
+const ordersBtn = document.getElementById("orderscontainer");
+const ordersSection = document.getElementById("ordersSection");
+const cartSection = document.getElementById("cartContainer");
+const ordersList = document.getElementById("ordersList");
+
+ordersBtn.addEventListener("click", loadOrders);
 
 async function loadOrders() {
 
-    const response = await fetch(
-        "https://everwoven-crafts.onrender.com/api/orders/my-orders"
-    );
+    cartSection.style.display = "none";
+    ordersSection.style.display = "block";
 
-    const data = await response.json();
+    try {
 
-    const orders = data.orders;   // FIXED LINE
+        const response = await fetch(
+            "https://everwoven-crafts.onrender.com/api/orders/my-orders"
+        );
 
-    const ordersContainer = document.getElementById("ordersContainer");
+        const data = await response.json();
 
-    ordersContainer.innerHTML = "";
+        const orders = data.orders;
 
-    orders.forEach(order => {
+        ordersList.innerHTML = "";
 
-        const div = document.createElement("div");
+        if (!orders || orders.length === 0) {
+            ordersList.innerHTML = "<p>No orders yet</p>";
+            return;
+        }
 
-        div.innerHTML = `
-            <h3>Order ID: ${order._id}</h3>
-            <p>Name: ${order.customerName}</p>
-            <p>Total: ₹${order.totalAmount}</p>
-            <p>Date: ${new Date(order.createdAt).toLocaleString()}</p>
-            <hr>
-        `;
+        orders.forEach(order => {
 
-        ordersContainer.appendChild(div);
+            const div = document.createElement("div");
 
-    });
+            div.style.border = "1px solid #ccc";
+            div.style.padding = "10px";
+            div.style.margin = "10px";
+            div.style.borderRadius = "8px";
+
+            div.innerHTML = `
+                <h4>Order by: ${order.customerName}</h4>
+                <p>Total: ₹${order.totalAmount}</p>
+                <p>Date: ${new Date(order.createdAt).toLocaleString()}</p>
+            `;
+
+            ordersList.appendChild(div);
+
+        });
+
+    }
+    catch(error) {
+
+        console.error("Error loading orders:", error);
+
+        ordersList.innerHTML = "<p>Error loading orders</p>";
+
+    }
+
 }
-document.getElementById("orderscontainer")
-.addEventListener("click", loadOrders);
+document.getElementById("backFromOrders").addEventListener("click", () => {
 
+    document.getElementById("ordersSection").style.display = "none";
 
+});
 
-function resetMenu() {
-    const slideMenu = document.getElementById("slideMenu");
-    const container = document.getElementById("cartContainer");
-    
-    container.style.display = "none";
-    slideMenu.querySelector("h2").style.display = "block";
-    slideMenu.querySelector(".decorative-line").style.display = "block";
-    slideMenu.querySelector("ul").style.display = "block";
-}
 
 function changeQty(name, amount) {
     let cart = getCart();
