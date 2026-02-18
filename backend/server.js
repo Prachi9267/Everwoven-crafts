@@ -7,6 +7,11 @@ import Razorpay from "razorpay";
 import dotenv from "dotenv";
 dotenv.config();
 
+app.get("/ping", (req, res) => {
+  res.send("pong");
+});
+
+
 const app = express();
 app.use(express.json());
 app.use(cors({
